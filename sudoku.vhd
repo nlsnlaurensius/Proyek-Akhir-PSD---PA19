@@ -1,211 +1,240 @@
-LIBRARY ieee;
+
+
+library ieee; 
 USE IEEE.STD_LOGIC_1164.ALL;
 USE IEEE.STD_LOGIC_ARITH.ALL;
-USE IEEE.STD_LOGIC_UNSIGNED.ALL;
-USE work.newtype.ALL;
+USE IEEE.STD_LOGIC_UNSIGNED.ALL; 
+use work.newtype.all;
 
-ENTITY sudoku IS
-    PORT (
-        clk, reset : IN STD_LOGIC;
-        i : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
-        j : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
-        puzzle_buffer : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
-        start : IN STD_LOGIC;
-        ready : OUT STD_LOGIC
+------------------------------------------------------------------Entity--------------------------------------------------------------------------
+
+entity sudoku is
+    port(  
+        clk, reset: in std_logic;
+        i : in std_logic_vector(3 downto 0);
+        j : in std_logic_vector(3 downto 0);
+        puzzle_buffer : in std_logic_vector(3 downto 0);
+        start: in std_logic;
+        ready: out std_logic
     );
-END sudoku;
+end sudoku;
 
-ARCHITECTURE test OF sudoku IS
-    TYPE state_type IS (idle, next_empty_cell, guess, backtrack, solve);
-    SIGNAL state_present, state_next : state_type;
-    SIGNAL puzzle : sudoku_array := ((0, 0, 0, 0, 0, 3, 2, 9, 0), 
-                                    (0, 8, 6, 5, 0, 0, 0, 0, 0), 
-                                    (0, 2, 0, 0, 1, 0, 0, 0, 0),
-                                    (0, 0, 3, 7, 0, 5, 1, 0, 0), 
-                                    (9, 0, 0, 0, 0, 0, 0, 0, 8), 
-                                    (0, 0, 2, 9, 0, 8, 3, 0, 0),
-                                    (0, 0, 0, 4, 0, 0, 0, 8, 0), 
-                                    (0, 4, 7, 1, 0, 0, 0, 0, 0), 
-                                    (0, 0, 0, 0, 0, 0, 0, 0, 0));
+------------------------------------------------------------------Arsitektur--------------------------------------------------------------------------
 
-    SIGNAL bitmap_row : bitmap_array := (OTHERS => (OTHERS => ('0')));
-    SIGNAL bitmap_col : bitmap_array := (OTHERS => (OTHERS => ('0')));
-    SIGNAL bitmap_block : bitmap_array := (OTHERS => (OTHERS => ('0')));
-    SIGNAL selected_row : INTEGER RANGE 0 TO 9;
-    SIGNAL selected_col : INTEGER RANGE 0 TO 9;
-    SIGNAL selected_block : INTEGER RANGE 0 TO 9;
-    SIGNAL valid : STD_LOGIC := '0';
-    SIGNAL next_cell_found : STD_LOGIC := '0';
-    SIGNAL error : STD_LOGIC := '0';
-    SIGNAL restored_last_valid_fill : STD_LOGIC := '0';
-    SIGNAL all_cell_filled : STD_LOGIC := '0';
-    SIGNAL stack_row : stack := (OTHERS => (0));
-    SIGNAL stack_col : stack := (OTHERS => (0));
-    SIGNAL pointer : INTEGER RANGE 0 TO 127 := 127;
-    SIGNAL symbol_variable : INTEGER RANGE 0 TO 9;
-    SIGNAL update : STD_LOGIC := '0';
+architecture test of sudoku is
+    type state_type is (idle, next_empty_cell, guess, backtrack, solve);
+    signal state_present, state_next: state_type;
 
-    FUNCTION block_number_function (i, j : INTEGER) RETURN INTEGER IS
-        VARIABLE block_i : INTEGER RANGE 0 TO 10;
-        VARIABLE block_j : INTEGER RANGE 0 TO 10;
-        VARIABLE block_number : INTEGER RANGE 0 TO 9;
-        VARIABLE index : INTEGER RANGE 0 TO 80;
-    BEGIN
-        block_i := ((i - 1) - ((i - 1) MOD 3)) + 1;
-        block_j := ((j - 1) - ((j - 1) MOD 3)) + 1;
-        index := (block_i) * 10 + (block_j);
-        CASE (index) IS
-            WHEN 11 => block_number := 1;
-            WHEN 14 => block_number := 2;
-            WHEN 17 => block_number := 3;
-            WHEN 41 => block_number := 4;
-            WHEN 44 => block_number := 5;
-            WHEN 47 => block_number := 6;
-            WHEN 71 => block_number := 7;
-            WHEN 74 => block_number := 8;
-            WHEN 77 => block_number := 9;
-            WHEN OTHERS => block_number := 0;
-        END CASE;
-        RETURN block_number;
-    END FUNCTION;
+    --------------------------- Sudoku--------------------------------------------------------
+    signal puzzle : sudoku_array := (
+        (0,0,0,0,0,3,2,9,0),
+        (0,8,6,5,0,0,0,0,0),
+        (0,2,0,0,0,1,0,0,0),
+        (0,0,3,7,0,5,1,0,0),
+        (9,0,0,0,0,0,0,0,8),
+        (0,0,2,9,0,8,3,0,0),
+        (0,0,0,4,0,0,0,8,0),
+        (0,4,7,1,0,0,0,0,0),
+        (0,0,0,0,0,0,0,0,0)
+    );
+    
+    signal bitmap_row : bitmap_array := (others => (others => ('0')));
+    signal bitmap_col : bitmap_array := (others => (others => ('0')));
+    signal bitmap_block : bitmap_array := (others => (others => ('0')));
+    
+    signal selected_row: integer range 0 to 9;  -- Global signal untuk menyimpan nilai baris yang dipilih dalam operasi
+    signal selected_col: integer range 0 to 9;  -- Global signal untuk menyimpan nilai kolom yang dipilih dalam operasi
+    signal selected_block: integer range 0 to 9; -- Global signal untuk menyimpan nilai blok yang dipilih dalam operasi
+    signal valid: std_logic := '0';  -- Signal untuk memeriksa apakah tebakan yang dibuat oleh state "Guess" adalah elemen yang valid
+    signal next_cell_found: std_logic := '0';  -- Signal untuk memeriksa apakah cell kosong berikutnya ditemukan oleh state "Next Empty Cell"
+    signal error: std_logic := '0';  -- Jika state "Guess" tidak bisa menghasilkan tebakan, maka akan mengatur error dan melanjutkan ke state "Backtrack"
+    signal restored_last_valid_fill: std_logic := '0'; -- Ketika backtrack menghapus bit sebelumnya di stack dan memeriksa elemen valid berikutnya
+    signal all_cell_filled: std_logic := '0';  -- Jika tidak ada lagi cell kosong ditemukan
+    signal stack_row : stack := (others => (0)); -- Stack untuk menyimpan alamat baris
+    signal stack_col : stack := (others => (0)); -- Stack untuk menyimpan alamat kolom
+    signal pointer : integer range 0 to 127 := 127; -- Pointer stack
+    signal symbol_variable: integer range 0 to 9;  -- Variabel yang dipop dari alamat stack dan disimpan di sini
+    signal update: std_logic := '0';  -- Signal untuk memperbarui bitmap
+    
+    --------------------------------------------------Fungsi untuk menentukan nomor blok dalam puzzle Sudoku berdasarkan baris dan kolom---------------------------------------------------------
+    function block_number_function ( i,j: integer) return integer is
+        variable block_i : integer range 0 to 10;
+        variable block_j : integer range 0 to 10;
+        variable block_number: integer range 0 to 9;
+        variable index : integer range 0 to 80;   
+    begin
+        -- Blok ditentukan menggunakan i-i%3 dan j-j%3, dimana i dan j adalah indeks baris dan kolom
+        block_i := ((i-1) - ((i-1) mod 3)) + 1;    -- Variabel sementara untuk menyimpan i-i%3
+        block_j := ((j-1) - ((j-1) mod 3)) + 1;    -- Variabel sementara untuk menyimpan j-j%3
+        index := (block_i)*10 + (block_j);    
 
-BEGIN
-    PROCESS (clk, reset)
-    BEGIN
-        IF (reset = '1') THEN
+        case (index) is  -- Menentukan nomor blok berdasarkan informasi tersebut
+            when 11 => block_number := 1;
+            when 14 => block_number := 2;
+            when 17 => block_number := 3;
+            when 41 => block_number := 4;
+            when 44 => block_number := 5;
+            when 47 => block_number := 6;
+            when 71 => block_number := 7;
+            when 74 => block_number := 8;
+            when 77 => block_number := 9;
+            when others => block_number := 0;
+        end case;
+        
+        return block_number;
+    end function;
+
+begin
+    ----------------------Untuk inisialisasi dan memperbarui urutan FSM---------------------------------------
+    process(clk, reset)
+    begin
+        if (reset = '1') then
             state_present <= idle;
-        ELSIF (clk'event AND clk = '1') THEN
+        elsif (clk'event and clk = '1') then
             state_present <= state_next;
-        END IF;
-    END PROCESS;
+        end if;
+    end process;
 
-    PROCESS (clk, reset, start)
-    BEGIN
-        CASE state_present IS
-            WHEN idle =>
-                IF (start = '1') THEN
+    ------------------------Jalur kontrol: logika yang menentukan state berikutnya dari FSM-------------------
+    process(clk, reset, start)
+    begin
+        case state_present is
+            when idle =>
+                if (start = '1') then
                     state_next <= next_empty_cell;
-                ELSE
+                else
                     state_next <= idle;
-                END IF;
-            WHEN next_empty_cell =>
-                IF (next_cell_found = '1') THEN
+                end if;
+                
+            when next_empty_cell =>
+                if (next_cell_found = '1') then
                     state_next <= guess;
-                ELSIF (all_cell_filled = '1') THEN
+                elsif (all_cell_filled = '1') then
                     state_next <= solve;
-                ELSE
+                else
                     state_next <= next_empty_cell;
-                END IF;
-            WHEN guess =>
-                IF (error = '1') THEN
-                    state_next <= backtrack;
-                ELSIF (valid = '1') THEN
-                    state_next <= next_empty_cell;
-                ELSE
-                    state_next <= guess;
-                END IF;
-            WHEN backtrack =>
-                IF (restored_last_valid_fill = '1') THEN
-                    state_next <= guess;
-                ELSE
-                    state_next <= backtrack;
-                END IF;
-            WHEN solve =>
-                state_next <= idle;
-        END CASE;
-    END PROCESS;
+                end if;
 
-    PROCESS (state_present, clk)
-        VARIABLE guess_report : guess_type := (OTHERS => ('0'));
-        VARIABLE Test_variable : INTEGER RANGE 0 TO 9;
-        VARIABLE error_variable : STD_LOGIC := '1';
-        VARIABLE i_var : INTEGER RANGE 1 TO 9;
-        VARIABLE j_var : INTEGER RANGE 1 TO 9;
-        VARIABLE block_number : INTEGER RANGE 1 TO 9;
-        VARIABLE variable1 : INTEGER RANGE 0 TO 9;
-    BEGIN
-        CASE state_present IS
-            WHEN idle =>
+            when guess =>
+                if (error = '1') then
+                    state_next <= backtrack;
+                elsif (valid = '1') then
+                    state_next <= next_empty_cell;
+                else
+                    state_next <= guess;
+                end if;
+                
+            when backtrack =>
+                if (restored_last_valid_fill = '1') then
+                    state_next <= guess;
+                else
+                    state_next <= backtrack;
+                end if;
+                
+            when solve =>
+                state_next <= idle;
+        end case;
+    end process;
+
+    ------------------------Jalur kontrol aliran FSM dan logikanya-----------------------------------------
+    process(state_present, clk)
+    variable guess_report : guess_type := (others => ('0')); 
+    variable Test_variable: integer range 0 to 9;
+    variable error_variable: std_logic := '1';
+    variable i_var : integer range 1 to 9;
+    variable j_var : integer range 1 to 9;
+    variable block_number: integer range 1 to 9;
+    variable variable1 : integer range 0 to 9;
+    begin
+        case state_present is
+            when idle =>
                 i_var := conv_integer(unsigned(i));
                 j_var := conv_integer(unsigned(j));
-                IF (i = "0000") THEN
+                if (i = "0000") then
                     i_var := 1;
-                END IF;
-                IF (j = "0000") THEN
+                end if;
+                if (j = "0000") then
                     j_var := 1;
-                END IF;
+                end if;
                 puzzle(i_var, j_var) <= conv_integer(unsigned(puzzle_buffer));
-            WHEN next_empty_cell =>
+                
+            when next_empty_cell =>
                 valid <= '0';
-                FOR i IN INTEGER RANGE 1 TO 9 LOOP
-                    FOR j IN INTEGER RANGE 1 TO 9 LOOP
+                loop1: for i in integer range 1 to 9 loop  -- baris
+                    loop2: for j in integer range 1 to 9 loop  -- kolom
                         Test_variable := (puzzle(i, j));
-                        IF (Test_variable = 0) THEN
+                        if (Test_variable = 0) then
                             selected_row <= i;
                             selected_col <= j;
                             selected_block <= block_number_function(i, j);
                             next_cell_found <= '1';
-                            symbol_variable <= Test_variable;
-                            EXIT;
-                        ELSIF (i = 9 AND j = 9 AND Test_variable /= 0) THEN
-                            all_cell_filled <= '1';
-                            EXIT;
-                        ELSE
+                            symbol_variable <= Test_variable;  
+                            exit loop1 when Test_variable = 0;  
+                            exit loop2 when Test_variable = 0;
+                        elsif (i = 9 and j = 9 and Test_variable /= 0) then
+                            all_cell_filled <= '1';  -- Puzzle selesai, saatnya untuk solve
+                            exit loop1 when Test_variable = 0;
+                            exit loop2 when Test_variable = 0;
+                        else 
                             selected_row <= 0;
                             selected_col <= 0;
                             selected_block <= 0;
                             next_cell_found <= '0';
                             all_cell_filled <= '0';
                             symbol_variable <= 0;
-                        END IF;
-                    END LOOP;
-                END LOOP;
-            WHEN guess =>
+                        end if;
+                    end loop;
+                end loop;
+                
+            when guess =>  
                 error_variable := '1';
                 selected_block <= block_number_function(selected_row, selected_col);
-                FOR j IN INTEGER RANGE 1 TO 9 LOOP
-                    guess_report(j) := bitmap_row(selected_row, j) OR bitmap_col(selected_col, j) OR bitmap_block(selected_block, j);
-                    error_variable := error_variable AND guess_report(j);
-                END LOOP;
-                FOR i IN INTEGER RANGE 1 TO 9 LOOP
-                    IF (guess_report(i) = '0' AND restored_last_valid_fill = '0') THEN
+                for j in integer range 1 to 9 loop 
+                    guess_report(j) := bitmap_row(selected_row, j) or bitmap_col(selected_col, j) or bitmap_block(selected_block, j);
+                    error_variable := error_variable and guess_report(j);
+                end loop;
+                loop_i: for i in integer range 1 to 9 loop 
+                    if (guess_report(i) = '0' and restored_last_valid_fill = '0') then
                         stack_row(pointer) <= selected_row;
                         stack_col(pointer) <= selected_col;
                         pointer <= pointer - 1;
                         error <= '0';
-                        valid <= '1';
-                        puzzle(selected_row, selected_col) <= i;
-                        update <= NOT update;
-                        EXIT;
-                    ELSIF (error_variable = '1' AND restored_last_valid_fill = '0') THEN
+                        valid <= '1';  -- Masuk ke state berikutnya
+                        puzzle(selected_row, selected_col) <= i;  -- Memperbarui bitmap
+                        update <= not update;
+                        exit loop_i;
+                    elsif (error_variable = '1' and restored_last_valid_fill = '0') then
                         error <= error_variable;
                         valid <= '0';
-                        EXIT;
-                    END IF;
-                END LOOP;
-                IF (restored_last_valid_fill = '1') THEN
+                        exit loop_i;
+                    end if;
+                end loop;
+
+                -- Jika elemen ditolak dari backtrack, pilih elemen valid berikutnya yang lebih besar
+                if (restored_last_valid_fill = '1') then
                     selected_block <= block_number_function(selected_row, selected_col);
-                    FOR j IN INTEGER RANGE 1 TO 9 LOOP
-                        guess_report(j) := bitmap_row(selected_row, j) OR bitmap_col(selected_col, j) OR bitmap_block(selected_block, j);
-                        error_variable := error_variable AND guess_report(j);
-                    END LOOP;
-                    FOR i IN INTEGER RANGE 1 TO 9 LOOP
-                        IF (i > variable1 AND guess_report(i) = '0') THEN
+                    for j in integer range 1 to 9 loop 
+                        guess_report(j) := bitmap_row(selected_row, j) or bitmap_col(selected_col, j) or bitmap_block(selected_block, j);
+                        error_variable := error_variable and guess_report(j);
+                    end loop;
+                    loop_2 : for i in integer range 1 to 9 loop 
+                        if (i > variable1 and guess_report(i) = '0') then
                             stack_row(pointer) <= selected_row;
                             stack_col(pointer) <= selected_col;
                             pointer <= pointer - 1;
                             puzzle(selected_row, selected_col) <= i;
-                            update <= NOT update;
+                            update <= not update;
                             error <= '0';
                             valid <= '1';
                             restored_last_valid_fill <= '0';
-                            EXIT;
-                        ELSE
+                            exit loop_2;
+                        else
                             restored_last_valid_fill <= '1';
-                        END IF;
-                    END LOOP;
-                END IF;
-            WHEN backtrack =>
+                        end if;
+                    end loop;
+                end if;
+
+            when backtrack =>  
                 pointer <= pointer + 1;
                 selected_row <= stack_row(pointer + 1);
                 selected_col <= stack_col(pointer + 1);
@@ -213,71 +242,75 @@ BEGIN
                 symbol_variable <= puzzle(stack_row(pointer + 1), stack_col(pointer + 1));
                 variable1 := puzzle(stack_row(pointer + 1), stack_col(pointer + 1));
                 puzzle(stack_row(pointer + 1), stack_col(pointer + 1)) <= 0;
-                update <= NOT update;
+                update <= not update;
                 restored_last_valid_fill <= '1';
-            WHEN solve =>
+                
+            when solve =>
                 ready <= '1';
-        END CASE;
-    END PROCESS;
+        end case;
+    end process;
 
-    PROCESS (start, puzzle, bitmap_row, bitmap_col, bitmap_block)
-        VARIABLE block_number : INTEGER RANGE 1 TO 9;
-        VARIABLE Test_variable : INTEGER RANGE 0 TO 9;
-    BEGIN
-        bitmap_row <= (OTHERS => (OTHERS => ('0')));
-        bitmap_col <= (OTHERS => (OTHERS => ('0')));
-        bitmap_block <= (OTHERS => (OTHERS => ('0')));
-        FOR i IN INTEGER RANGE 1 TO 9 LOOP
-            FOR j IN INTEGER RANGE 1 TO 9 LOOP
-                Test_variable := (puzzle(i, j));
+    ----------------------------Memperbarui bitmap dan tabel pemilihan kandidat--------------------------------------
+    process(start, puzzle, bitmap_row, bitmap_col, bitmap_block)
+    variable block_number: integer range 1 to 9;
+    variable Test_variable : integer range 0 to 9;
+    begin
+        -- MUX untuk menginisialisasi setiap bit menjadi nol kecuali diisi menggunakan logika berikut----------------------------
+        bitmap_row <= (others => (others => ('0'))); 
+        bitmap_col <= (others => (others => ('0')));
+        bitmap_block <= (others => (others => ('0')));
+
+        for i in integer range 1 to 9 loop  -- baris
+            for j in integer range 1 to 9 loop  -- kolom
+                Test_variable := (puzzle(i, j));  -- Memuat elemen dari puzzle dan memperbarui di bitmap
                 block_number := block_number_function(i, j);
-                CASE Test_variable IS
-                    WHEN 0 =>
+                case Test_variable is  -- Memperbarui nomor baris, kolom, dan blok dari elemen yang diidentifikasi
+                    when 0 =>
                         bitmap_row(i, Test_variable) <= '0';
                         bitmap_col(j, Test_variable) <= '0';
                         bitmap_block(block_number, Test_variable) <= '0';
-                    WHEN 1 =>
+                    when 1 =>
                         bitmap_row(i, Test_variable) <= '1';
                         bitmap_col(j, Test_variable) <= '1';
                         bitmap_block(block_number, Test_variable) <= '1';
-                    WHEN 2 =>
+                    when 2 =>
                         bitmap_row(i, Test_variable) <= '1';
                         bitmap_col(j, Test_variable) <= '1';
                         bitmap_block(block_number, Test_variable) <= '1';
-                    WHEN 3 =>
+                    when 3 =>
                         bitmap_row(i, Test_variable) <= '1';
                         bitmap_col(j, Test_variable) <= '1';
                         bitmap_block(block_number, Test_variable) <= '1';
-                    WHEN 4 =>
+                    when 4 =>
                         bitmap_row(i, Test_variable) <= '1';
                         bitmap_col(j, Test_variable) <= '1';
                         bitmap_block(block_number, Test_variable) <= '1';
-                    WHEN 5 =>
+                    when 5 =>
                         bitmap_row(i, Test_variable) <= '1';
                         bitmap_col(j, Test_variable) <= '1';
                         bitmap_block(block_number, Test_variable) <= '1';
-                    WHEN 6 =>
+                    when 6 =>
                         bitmap_row(i, Test_variable) <= '1';
                         bitmap_col(j, Test_variable) <= '1';
                         bitmap_block(block_number, Test_variable) <= '1';
-                    WHEN 7 =>
+                    when 7 =>
                         bitmap_row(i, Test_variable) <= '1';
                         bitmap_col(j, Test_variable) <= '1';
                         bitmap_block(block_number, Test_variable) <= '1';
-                    WHEN 8 =>
+                    when 8 =>
                         bitmap_row(i, Test_variable) <= '1';
                         bitmap_col(j, Test_variable) <= '1';
                         bitmap_block(block_number, Test_variable) <= '1';
-                    WHEN 9 =>
+                    when 9 =>
                         bitmap_row(i, Test_variable) <= '1';
                         bitmap_col(j, Test_variable) <= '1';
                         bitmap_block(block_number, Test_variable) <= '1';
-                    WHEN OTHERS =>
+                    when others =>
                         bitmap_row(i, j) <= '-';
                         bitmap_col(j, Test_variable) <= '-';
                         bitmap_block(block_number, Test_variable) <= '-';
-                END CASE;
-            END LOOP;
-        END LOOP;
-    END PROCESS;
-END test;
+                end case;
+            end loop; 
+        end loop;  
+    end process;
+end test;
