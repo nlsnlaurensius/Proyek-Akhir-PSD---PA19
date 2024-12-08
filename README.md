@@ -28,6 +28,7 @@
     </li>
     <li><a href="#fundamental">Fundamentals</a></li>
     <li><a href="#conclusion">Conclusion</a></li>
+    <li><a href="#summary">Summary</a></li>
     <li><a href="#contributing">Contributing</a></li>
   </ol>
 </details>
@@ -69,6 +70,94 @@ Proyek ini mengimplementasikan algoritma backtracking untuk mengisi sel-sel koso
 | Row               |
 | ![ROW](Image/ROW.png)             |
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Summary
+Function untuk menentukan nomor blok dalam puzzle Sudoku berdasarkan indeks baris dan kolom.
+```vhdl
+function block_number_function(i, j: integer) return integer is
+    variable block_i : integer range 0 to 10;
+    variable block_j : integer range 0 to 10;
+    variable block_number: integer range 0 to 9;
+begin
+    block_i := ((i-1) - ((i-1) mod 3)) + 1;
+    block_j := ((j-1) - ((j-1) mod 3)) + 1;
+    case (block_i * 10 + block_j) is
+        when 11 => block_number := 1;
+        when 14 => block_number := 2;
+        when others => block_number := 0;
+    end case;
+    return block_number;
+end function;
+```
+
+Mengatur transisi status FSM
+```vhdl
+process(clk, reset, start)
+begin
+    case state_present is
+        when idle =>
+            if (start = '1') then
+                state_next <= next_empty_cell;
+            else
+                state_next <= idle;
+            end if;
+
+        when next_empty_cell =>
+            if (next_cell_found = '1') then
+                state_next <= guess;
+            elsif (all_cell_filled = '1') then
+                state_next <= solve;
+            else
+                state_next <= next_empty_cell;
+            end if;
+
+        when guess =>
+            if (error = '1') then
+                state_next <= backtrack;
+            elsif (valid = '1') then
+                state_next <= next_empty_cell;
+            else
+                state_next <= guess;
+            end if;
+
+        when backtrack =>
+            if (restored_last_valid_fill = '1') then
+                state_next <= guess;
+            else
+                state_next <= backtrack;
+            end if;
+
+        when solve =>
+            state_next <= idle;
+    end case;
+end process;
+```
+Logic untuk FSM
+```vhdl
+process(state_present, clk)
+    variable guess_report : guess_type := (others => ('0')); 
+    variable Test_variable: integer range 0 to 9;
+    begin
+        case state_present is
+            when idle =>
+                -- Initialization
+                -- Processing
+
+            when next_empty_cell =>
+                -- Logic pencarian
+
+            when guess =>
+                -- Logic menebak
+
+            when backtrack =>
+                -- Logic backtrack
+
+            when solve =>
+                -- Puzzle solved, setting ready = 1
+        end case;
+    end process;
+```
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Conclusion
