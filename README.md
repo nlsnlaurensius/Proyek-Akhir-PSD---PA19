@@ -8,15 +8,13 @@
 <br />
 <div align="center">
   <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Sudoku-by-L2G-20050714.svg/640px-Sudoku-by-L2G-20050714.svg.png" alt="Logo" width="80" height="80">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Sudoku-by-L2G-20050714.svg/640px-Sudoku-by-L2G-20050714.svg.png" alt="Logo" width="280" height="280">
   </a>
 
   <h3 align="center">Sudoku Solver</h3>
 
 
 </div>
-
-
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -25,22 +23,12 @@
     <li>
       <a href="#about-the-project">About The Project</a>
       <ul>
-        <li><a href="#built-with">Built With</a></li>
+        <li><a href="#objectives">Objectives</a></li>
       </ul>
     </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#fundamental">Fundamentals</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
     <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
@@ -49,56 +37,48 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
-
-Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should implement DRY principles to the rest of your life :smile:
-
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have contributed to expanding this template!
-
-Use the `BLANK_README.md` to get started.
+Proyek Sudoku Solver ini adalah solusi berbasis perangkat keras untuk menyelesaikan Sudoku menggunakan VHDL dan FPGA. Sistem ini menggunakan pendekatan Finite State Machine untuk mengelola seluruh proses penyelesaian, mulai dari mengidentifikasi cell kosong hingga melakukan tebakan yang valid dan mundur jika diperlukan. Input yang diberikan berupa grid, dan sistem menggunakan representasi bitmap untuk melacak validitas setiap angka yang mungkin pada setiap baris, kolom, dan blok. Dengan algoritma pencarian yang efisien, sistem ini menyelesaikan langkah demi langkah, memperbarui grid hingga solusi ditemukan. Proyek ini menunjukkan penerapan praktis dari FSM dalam penyelesaian, sekaligus menunjukkan bagaimana FPGA dapat dimanfaatkan untuk masalah komputasi. Simulasi dilakukan menggunakan ModelSim menunjukkan bahwa puzzle berhasil diselesaikan dengan setiap langkah terlihat jelas di waveform, dan sistem bertransisi antar state untuk penyelesaiannya. 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+<!-- GETTING STARTED -->
+## Objectives
+- Menerapkan Algoritma Penyelesaian Sudoku pada FPGA dengan VHDL
+- Mengoptimalkan Penggunaan Finite State Machine dengan backtracking.
+- Mempercepat Proses Penyelesaian Sudoku dengan Hardware: 
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>  
 
 ### Built With
 - VS Code
 - MODELSIM
 - Intel Quartus Pro
 
-
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- GETTING STARTED -->
-## Getting Started
-
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
-
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
+  <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- USAGE EXAMPLES -->
-## Usage
+## Fundamental
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+Proyek ini mengimplementasikan algoritma backtracking untuk mengisi sel-sel kosong dalam teka-teki Sudoku dengan angka valid, sambil memeriksa kendala-kendala yang ada. Untuk meningkatkan efisiensi, digunakan bitmap untuk memetakan angka-angka yang sudah ada pada baris, kolom, dan blok tertentu. Bitmap baris, kolom, dan blok digunakan untuk memvalidasi angka yang bisa ditempatkan pada setiap sel kosong dengan memeriksa apakah angka tersebut sudah ada pada peta yang relevan. Dengan cara ini, sistem dapat dengan cepat menentukan angka yang valid untuk dimasukkan, sekaligus meminimalkan pencarian yang tidak perlu. Input buffer dari pengguna memungkinkan pemilihan angka yang tepat berdasarkan peta-peta tersebut. Berikut adalah gambarannya:
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+| Sudoku               |
+|----------------------|
+| ![Signal Puzzle](Image/Puzzle.png) |
+| Column               |
+| ![Column](Image/Column.png)       |
+| Row               |
+| ![ROW](Image/ROW.png)             |
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Conclusion
+Proyek Sudoku Solver mengimplementasikan algoritma backtracking untuk menyelesaikan puzzle Sudoku dengan menggunakan bitmap untuk efisiensi pengecekan validitas angka di baris, kolom, dan blok. Sistem ini dapat secara otomatis mencari dan mengisi cell kosong, serta melakukan backtrack saat menemui kendala. Dengan pendekatan berbasis state machine (FSM).
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 ### Contributors:
 
-<a href="https://github.com/nlsnlaurensius/Proyek-Akhir-PSD-PA19/graphs/contributors">
+<a href="https://github.com/nlsnlaurensius/Proyek-Akhir-PSD-PA19/g  raphs/contributors">
   <img src="https://contrib.rocks/image?repo=nlsnlaurensius/Proyek-Akhir-PSD-PA19" />
 </a>
 <a href="https://github.com/Tinkermannn/Money-Convert/graphs/contributors">
@@ -116,12 +96,6 @@ Aisya Rivelia Azzahra		2306161864**
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-<!-- CONTACT -->
-## Contact
-
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
 
 Project Link: [FInal Project PA-19](https://github.com/nlsnlaurensius/Proyek-Akhir-PSD-PA19)
 
