@@ -1,0 +1,8 @@
+
+State Machine - |sudoku|state_present
+Name state_present.solve state_present.backtrack state_present.guess state_present.next_empty_cell state_present.idle 
+state_present.idle 0 0 0 0 0 
+state_present.next_empty_cell 0 0 0 1 1 
+state_present.guess 0 0 1 0 1 
+state_present.backtrack 0 1 0 0 1 
+state_present.solve 1 0 0 0 1 
