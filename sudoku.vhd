@@ -1,5 +1,3 @@
-
-
 library ieee; 
 USE IEEE.STD_LOGIC_1164.ALL;
 USE IEEE.STD_LOGIC_ARITH.ALL;
@@ -40,8 +38,7 @@ architecture test of sudoku is
     
     signal bitmap_row : bitmap_array := (others => (others => ('0')));
     signal bitmap_col : bitmap_array := (others => (others => ('0')));
-    signal bitmap_block : bitmap_array := (others => (others => ('0')));
-    
+    signal bitmap_block : bitmap_array := (others => (others => ('0')));  
     signal selected_row: integer range 0 to 9;  -- Global signal untuk menyimpan nilai baris yang dipilih dalam operasi
     signal selected_col: integer range 0 to 9;  -- Global signal untuk menyimpan nilai kolom yang dipilih dalam operasi
     signal selected_block: integer range 0 to 9; -- Global signal untuk menyimpan nilai blok yang dipilih dalam operasi
@@ -79,8 +76,7 @@ architecture test of sudoku is
             when 74 => block_number := 8;
             when 77 => block_number := 9;
             when others => block_number := 0;
-        end case;
-        
+        end case;       
         return block_number;
     end function;
 
@@ -105,7 +101,6 @@ begin
                 else
                     state_next <= idle;
                 end if;
-                
             when next_empty_cell =>
                 if (next_cell_found = '1') then
                     state_next <= guess;
@@ -123,14 +118,12 @@ begin
                 else
                     state_next <= guess;
                 end if;
-                
             when backtrack =>
                 if (restored_last_valid_fill = '1') then
                     state_next <= guess;
                 else
                     state_next <= backtrack;
                 end if;
-                
             when solve =>
                 state_next <= idle;
         end case;

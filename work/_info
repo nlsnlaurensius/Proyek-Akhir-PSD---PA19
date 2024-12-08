@@ -1,0 +1,579 @@
+m255
+K4
+z2
+!s11e vcom 2020.1 2020.02, Feb 28 2020
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dD:/IntelFGPA/20.1
+Egrid_controller
+Z0 w1733457829
+Z1 DPx4 work 14 sudoku_package 0 22 06SOfReED3MQcB7?>1L]B1
+Z2 DPx4 ieee 11 numeric_std 0 22 aU^R8eGcicLcUFIaBQSL>3
+Z3 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
+Z4 DPx4 ieee 14 std_logic_1164 0 22 cVAk:aDinOX8^VGI1ekP<3
+!i122 150
+Z5 dD:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19
+Z6 8D:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/grid_controller.vhd
+Z7 FD:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/grid_controller.vhd
+l0
+L7 1
+VVCzXmmTWE28KIg]@^DhM31
+!s100 kjmSoniS^E>M3XQ^kR8^71
+Z8 OV;C;2020.1;71
+32
+Z9 !s110 1733457830
+!i10b 1
+Z10 !s108 1733457830.000000
+Z11 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/grid_controller.vhd|
+Z12 !s107 D:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/grid_controller.vhd|
+!i113 1
+Z13 o-work work -2002 -explicit
+Z14 tExplicit 1 CvgOpt 0
+Adataflow
+R1
+R2
+R3
+R4
+DEx4 work 15 grid_controller 0 22 VCzXmmTWE28KIg]@^DhM31
+!i122 150
+l20
+L17 29
+VYFhj>_k0RW6aeJz^3HN3C1
+!s100 W8_J?[b^XAgIaEYe;8zlV1
+R8
+32
+R9
+!i10b 1
+R10
+R11
+R12
+!i113 1
+R13
+R14
+Egrid_manager
+Z15 w1733425299
+R2
+R3
+R4
+!i122 71
+R5
+Z16 8D:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/grid_manager.vhd
+Z17 FD:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/grid_manager.vhd
+l0
+L5 1
+Vf8^JDISE4BZE:fQe?X<;73
+!s100 W^1BgcaV[V`?Y3R@ORQ6g0
+R8
+32
+Z18 !s110 1733426443
+!i10b 1
+Z19 !s108 1733426442.000000
+Z20 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/grid_manager.vhd|
+Z21 !s107 D:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/grid_manager.vhd|
+!i113 1
+R13
+R14
+Abehavioral
+R2
+R3
+R4
+DEx4 work 12 grid_manager 0 22 f8^JDISE4BZE:fQe?X<;73
+!i122 71
+l18
+L17 15
+VaB;UQCP9@;ASc7f[bdI<m1
+!s100 o50ELiiaS[Lne9lN9hcMH1
+R8
+32
+R18
+!i10b 1
+R19
+R20
+R21
+!i113 1
+R13
+R14
+Pnewtype
+Z22 DPx4 ieee 18 std_logic_unsigned 0 22 ;eZjO2D4ZDz<]0>8AL<ne1
+Z23 DPx4 ieee 15 std_logic_arith 0 22 [G314=:2zXJ`VORJe1J@Z1
+R4
+R3
+R2
+!i122 180
+w1733488454
+R5
+8D:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/newtype.vhd
+FD:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/newtype.vhd
+l0
+L7 1
+VmD5XZST;PFNob;fALez=i0
+!s100 A=_U1OOL?VY_R?kDUY`E>0
+R8
+32
+!s110 1733488520
+!i10b 1
+!s108 1733488520.000000
+!s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/newtype.vhd|
+!s107 D:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/newtype.vhd|
+!i113 1
+R13
+R14
+Erule_validator
+Z24 w1733425324
+R2
+R3
+R4
+!i122 72
+R5
+Z25 8D:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/rule_validator.vhd
+Z26 FD:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/rule_validator.vhd
+l0
+L5 1
+V?E<`eEo6m[el9ADXae05j1
+!s100 LTmBHYn3?;iTIFV>gIRCT1
+R8
+32
+R18
+!i10b 1
+Z27 !s108 1733426443.000000
+Z28 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/rule_validator.vhd|
+Z29 !s107 D:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/rule_validator.vhd|
+!i113 1
+R13
+R14
+Abehavioral
+R2
+R3
+R4
+DEx4 work 14 rule_validator 0 22 ?E<`eEo6m[el9ADXae05j1
+!i122 72
+l23
+L15 42
+Vn2i1@Igk]XGSAZj=9JEON2
+!s100 bZI3o=kceGz<`jaTbFaX81
+R8
+32
+R18
+!i10b 1
+R27
+R28
+R29
+!i113 1
+R13
+R14
+Estate_controller
+Z30 w1733457434
+R1
+R2
+R3
+R4
+!i122 151
+R5
+Z31 8D:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/state_controller.vhd
+Z32 FD:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/state_controller.vhd
+l0
+L7 1
+V:A9;W@_TcLN`n<:hQzFZd2
+!s100 j1h5HKn83A?eVPVBHAAV82
+R8
+32
+Z33 !s110 1733457831
+!i10b 1
+R10
+Z34 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/state_controller.vhd|
+Z35 !s107 D:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/state_controller.vhd|
+!i113 1
+R13
+R14
+Abehavioral
+R1
+R2
+R3
+R4
+DEx4 work 16 state_controller 0 22 :A9;W@_TcLN`n<:hQzFZd2
+!i122 151
+l18
+L16 51
+VB`2QSoHiKlFZn?jaUV2`E1
+!s100 O2L8ON_jE3Hol^5U2JbNC0
+R8
+32
+R33
+!i10b 1
+R10
+R34
+R35
+!i113 1
+R13
+R14
+Esudoku
+Z36 w1733491765
+R2
+Z37 DPx4 work 7 newtype 0 22 mD5XZST;PFNob;fALez=i0
+R22
+R23
+R3
+R4
+!i122 204
+R5
+Z38 8D:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/sudoku.vhd
+Z39 FD:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/sudoku.vhd
+l0
+L7 1
+V^6OdY;Kdo=oXW=Rd_YeHQ2
+!s100 MEmoddEK=OF9A2=7i8Moo1
+R8
+32
+Z40 !s110 1733491774
+!i10b 1
+Z41 !s108 1733491774.000000
+Z42 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/sudoku.vhd|
+Z43 !s107 D:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/sudoku.vhd|
+!i113 1
+R13
+R14
+Atest
+R2
+R37
+R22
+R23
+R3
+R4
+DEx4 work 6 sudoku 0 22 ^6OdY;Kdo=oXW=Rd_YeHQ2
+!i122 204
+l111
+L19 234
+Vg31eGKUkI:M0keE6@8dXe0
+!s100 Bc6`fFfH;da>o3g0hBF4[3
+R8
+32
+R40
+!i10b 1
+R41
+R42
+R43
+!i113 1
+R13
+R14
+Psudoku_package
+R2
+R3
+R4
+!i122 169
+Z44 w1733460027
+R5
+Z45 8D:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/sudoku_package.vhd
+Z46 FD:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/sudoku_package.vhd
+l0
+L5 1
+VPBZ71^64VAQbHe<^ZYn?e0
+!s100 W]cB4HOmdhz2JgV=g0X]40
+R8
+32
+b1
+Z47 !s110 1733460042
+!i10b 1
+Z48 !s108 1733460042.000000
+Z49 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/sudoku_package.vhd|
+Z50 !s107 D:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/sudoku_package.vhd|
+!i113 1
+R13
+R14
+Bbody
+Z51 DPx4 work 14 sudoku_package 0 22 PBZ71^64VAQbHe<^ZYn?e0
+R2
+R3
+R4
+!i122 169
+l0
+L21 1
+V`Ga:92O1j7ma?jcmhmcmd1
+!s100 ZmI9WOY:cH6hi4odMOgKb0
+R8
+32
+R47
+!i10b 1
+R48
+R49
+R50
+!i113 1
+R13
+R14
+Psudoku_pkg
+R22
+R23
+R3
+R4
+!i122 81
+w1733455628
+R5
+8D:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/sudoku_pkg.vhd
+FD:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/sudoku_pkg.vhd
+l0
+L6 1
+VMB0]eU`H5W2:UO]f[Blc22
+!s100 WQ9QESVk<n7>STN8k;]d62
+R8
+32
+!s110 1733455997
+!i10b 1
+!s108 1733455997.000000
+!s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/sudoku_pkg.vhd|
+!s107 D:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/sudoku_pkg.vhd|
+!i113 1
+R13
+R14
+Esudoku_solver
+Z52 w1733459943
+R51
+R2
+R3
+R4
+!i122 170
+R5
+Z53 8D:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/sudoku_solver.vhd
+Z54 FD:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/sudoku_solver.vhd
+l0
+L7 1
+Vn?CGE93UT2^?5OihJJL;H1
+!s100 ZgE:Yi7Oca7W=IC0S@XYM2
+R8
+32
+R47
+!i10b 1
+R48
+Z55 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/sudoku_solver.vhd|
+Z56 !s107 D:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/sudoku_solver.vhd|
+!i113 1
+R13
+R14
+Abehavioral
+R51
+R2
+R3
+R4
+DEx4 work 13 sudoku_solver 0 22 n?CGE93UT2^?5OihJJL;H1
+!i122 170
+l29
+L14 44
+VijBzINoMlBRn5T?X@3CNH0
+!s100 oo>J39j_W<Sd@B31]KYDO3
+R8
+32
+R47
+!i10b 1
+R48
+R55
+R56
+!i113 1
+R13
+R14
+Astructural
+R1
+R2
+R3
+R4
+DEx4 work 13 sudoku_solver 0 22 jgPbFiejB9<0^hz62:afV1
+!i122 160
+l42
+L17 58
+V8@FT8P=@=I?8WkCdS2eME1
+!s100 nHNi=z@e`=e0>26e>OJB43
+R8
+32
+!s110 1733459493
+!i10b 1
+!s108 1733459492.000000
+R55
+R56
+!i113 1
+R13
+R14
+w1733459484
+Esudoku_solver_tb
+Z57 w1733457454
+R1
+R2
+R3
+R4
+!i122 154
+R5
+Z58 8D:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/sudoku_solver_tb.vhd
+Z59 FD:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/sudoku_solver_tb.vhd
+l0
+L6 1
+VBE6?_SnSSGHNcGZ^N54l41
+!s100 Be1eo:X_2eg5]VmC@e<Za2
+R8
+32
+Z60 !s110 1733457832
+!i10b 1
+Z61 !s108 1733457832.000000
+Z62 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/sudoku_solver_tb.vhd|
+Z63 !s107 D:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/sudoku_solver_tb.vhd|
+!i113 1
+R13
+R14
+Atestbench
+R1
+R2
+R3
+R4
+DEx4 work 16 sudoku_solver_tb 0 22 BE6?_SnSSGHNcGZ^N54l41
+!i122 154
+l26
+L9 69
+VNgkfe5bUFjfoEoN]dZZe:2
+!s100 NlHhd2n][SNA:hZ]E_z[A1
+R8
+32
+R60
+!i10b 1
+R61
+R62
+R63
+!i113 1
+R13
+R14
+Abehavioral
+R2
+R3
+R4
+DEx4 work 16 sudoku_solver_tb 0 22 3JN2UKzN9E=onXWOJi<8g2
+!i122 74
+l34
+L8 91
+VeFl_n195[EK08lcE8eaW>3
+!s100 l:oM3FJ7jzajDfFXi]X5B1
+R8
+32
+R18
+!i10b 1
+R27
+R62
+R63
+!i113 1
+R13
+R14
+w1733426438
+Esudoku_tb
+Z64 w1733492663
+R2
+R37
+R22
+R23
+R3
+R4
+!i122 213
+R5
+Z65 8D:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/sudoku_tb.vhd
+Z66 FD:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/sudoku_tb.vhd
+l0
+L7 1
+VmozR`Je]Io68[<lOe7bPC1
+!s100 YUVJJOi<@QB8fPTU3YglO3
+R8
+32
+Z67 !s110 1733492675
+!i10b 1
+Z68 !s108 1733492674.000000
+Z69 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/sudoku_tb.vhd|
+Z70 !s107 D:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/sudoku_tb.vhd|
+!i113 1
+R13
+R14
+Abehavioral
+R2
+R37
+R22
+R23
+R3
+R4
+Z71 DEx4 work 9 sudoku_tb 0 22 mozR`Je]Io68[<lOe7bPC1
+!i122 213
+l34
+Z72 L10 119
+Z73 VhdEiCjBU3^c5;LDiglL330
+Z74 !s100 Zn`2LY76LIi3iOiaT]nc51
+R8
+32
+R67
+!i10b 1
+R68
+R69
+R70
+!i113 1
+R13
+R14
+Asim
+R3
+R4
+DEx4 work 9 sudoku_tb 0 22 YJfGbFGl;Kei=I]mFKa?d1
+!i122 175
+l26
+L7 63
+VIG[>]BAcbIHJ:icNM4X=Y2
+!s100 gT_f8VNM2_fU1h:]>nUhZ2
+R8
+32
+!s110 1733488051
+!i10b 1
+!s108 1733488051.000000
+R69
+R70
+!i113 1
+R13
+R14
+w1733488037
+Etb_sudoku_solver
+Z75 w1733456108
+Z76 DPx4 work 10 sudoku_pkg 0 22 MB0]eU`H5W2:UO]f[Blc22
+R22
+R23
+R3
+R4
+!i122 86
+R5
+Z77 8D:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/tb_sudoku_solver.vhd
+Z78 FD:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/tb_sudoku_solver.vhd
+l0
+L7 1
+VgjkNRf_KR`Dm5g?B0_=YN2
+!s100 63QFlFPheNLTQ5]Z]hCWa2
+R8
+32
+Z79 !s110 1733456123
+!i10b 1
+Z80 !s108 1733456123.000000
+Z81 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/tb_sudoku_solver.vhd|
+Z82 !s107 D:/Documents/KULI AH~/semester 3/Prak PSD/Proyek-Akhir-PSD-PA19/tb_sudoku_solver.vhd|
+!i113 1
+R13
+R14
+Abehavioral
+DEx4 work 13 sudoku_solver 0 22 08iLm^abD5PoLW2FZkZmo0
+R76
+R22
+R23
+R3
+R4
+DEx4 work 16 tb_sudoku_solver 0 22 gjkNRf_KR`Dm5g?B0_=YN2
+!i122 86
+l22
+L10 66
+V;l][CJzcc[=47Y7LBf^D?0
+!s100 NaMB:JC0Q=@_d2h4A;co81
+R8
+32
+R79
+!i10b 1
+R80
+R81
+R82
+!i113 1
+R13
+R14
